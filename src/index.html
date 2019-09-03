@@ -29,9 +29,16 @@
 			<label for="icon_prefix">Target URL</label>
         </div>
 		<div class="col s2">
-			<a class="waves-effect waves-light btn"><i class="material-icons left">near_me</i>Shrink!</a>
+			<a onClick="shrink_button_click();" class="waves-effect waves-light btn"><i class="material-icons left">near_me</i>Shrink!</a>
 		</div>
 		<div class="col s2"></div>
+	</div>
+	<div  id="loading-div" class="row hidden-div">
+		<div class="col s3"></div>
+		<div class="col s6 progress">
+			<div class="indeterminate"></div>
+		</div>
+		<div class="col s3"></div>
 	</div>
 </main>
         <footer class="page-footer teal">
