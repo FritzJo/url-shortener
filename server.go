@@ -16,6 +16,7 @@ func main() {
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 	r.HandleFunc("/index.html", index)
 	r.HandleFunc("/{shortid}", redirect)
+	r.HandleFunc("/s/{targetURL}", createShortURL)
 	log.Println("Listening...")
 	http.ListenAndServe(":8080", r)
 }
@@ -54,9 +55,21 @@ func index(w http.ResponseWriter, r *http.Request) {
 }
 
 func redirect(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("[info] redirect!")
 	vars := mux.Vars(r)
 	shortURL := vars["shortid"]
-	destinationURL := resolveShortURL(shortURL)
+	fmt.Println("[info] shortid: " + shortURL)
+	destinationURL := string(resolveShortURL(shortURL))
+	fmt.Println("[info] looked up destination!")
+	fmt.Println("[info] destination: " + destinationURL)
 	w.WriteHeader(http.StatusOK)
 	fmt.Fprintf(w, "Destination URL: %v\nShort URL: %v", destinationURL, shortURL)
+}
+
+func createShortURL(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	targetURL := vars["targetURL"]
+	shortURL := string(shortenURL(targetURL))
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, "Destination URL: %v\nShort URL: localhost:8080/%v", targetURL, shortURL)
 }

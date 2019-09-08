@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/boltdb/bolt"
 	"log"
 	"time"
@@ -24,17 +25,21 @@ func initDatabase() {
 
 }
 
-func resolveShortURL(shortURL string) (val []byte) {
+func resolveShortURL(shortURL string) (val string) {
 	db, err := bolt.Open("urls.db", 0600, &bolt.Options{Timeout: 1 * time.Second})
+	fmt.Println("[info] Opened db")
 	defer db.Close()
 	if err != nil {
 		log.Fatal(err)
 	}
+	fmt.Println("[info] reading bucket...")
 	db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("urls"))
-		val = b.Get([]byte(shortURL))
+		fmt.Println("[info] bucket info: " + string(b.Stats().Depth) + "!")
+		val = string(b.Get([]byte(shortURL)))
 		return nil
 	})
+	fmt.Println("[info] target URL: " + val)
 	return val
 }
 
