@@ -15,6 +15,7 @@ func main() {
 	r := mux.NewRouter()
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 	r.HandleFunc("/index.html", index)
+        r.HandleFunc("/index_result.html", indexResult)
 	r.HandleFunc("/{shortid}", redirect)
 	r.HandleFunc("/s/{targetURL}", createShortURL)
 	log.Println("Listening...")
@@ -22,6 +23,8 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
+
+        templateData := urldata{"abc", "a"}
 	lp := filepath.Join("templates", "index.html")
 	fp := filepath.Join("templates", filepath.Clean(r.URL.Path))
 
@@ -48,10 +51,54 @@ func index(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
-	if err := tmpl.ExecuteTemplate(w, "index", nil); err != nil {
+	if err := tmpl.ExecuteTemplate(w, "index", templateData); err != nil {
 		log.Println(err.Error())
 		http.Error(w, http.StatusText(500), 500)
 	}
+}
+
+func indexResult(w http.ResponseWriter, r *http.Request) {
+	lp := filepath.Join("templates", "index_result.html")
+	fp := filepath.Join("templates", filepath.Clean(r.URL.Path))
+        target, ok := r.URL.Query()["target"]
+        if !ok || len(target[0]) < 1 {
+            log.Println("Url Param 'target' is missing")
+            return
+        }
+        base := "http://localhost:8080/"
+        short := base + string(shortenURL(target[0]))
+        templateData := urldata{target[0], short}
+	// Return a 404 if the template doesn't exist
+	info, err := os.Stat(fp)
+	if err != nil {
+		if os.IsNotExist(err) {
+			http.NotFound(w, r)
+			return
+		}
+	}
+
+	// Return a 404 if the request is for a directory
+	if info.IsDir() {
+		http.NotFound(w, r)
+		return
+	}
+
+	tmpl, err := template.ParseFiles(lp, fp)
+	if err != nil {
+		// Log the detailed error)
+		log.Println(err.Error())
+		// Return a generic "Internal Server Error" message
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
+	if err := tmpl.ExecuteTemplate(w, "index", templateData); err != nil {
+		log.Println(err.Error())
+		http.Error(w, http.StatusText(500), 500)
+	}
+}
+type urldata struct {
+    Short string
+    Target string
 }
 
 func redirect(w http.ResponseWriter, r *http.Request) {

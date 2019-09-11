@@ -4,10 +4,10 @@ function shrink_button_click() {
     div.style.display = 'block';
 
     //calculate and set results
-    var current_url = document.getElementById('icon_prefix').value
+    //var current_url = document.getElementById('icon_prefix').value
     //var s_url = shrink_url(current_url)
     //document.getElementById('s-url').innerHTML = s_url;
-    document.getElementById('t-url').innerHTML = current_url;
+    //document.getElementById('t-url').innerHTML = current_url;
     //document.getElementById('date-url').innerHTML = "2020-02-20";
     //Hide loading bar
     div.style.display = 'none';
