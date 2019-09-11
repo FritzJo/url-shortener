@@ -26,15 +26,17 @@ func index(w http.ResponseWriter, r *http.Request) {
 	fp := filepath.Join("templates", filepath.Clean(r.URL.Path))
 
         target, ok := r.URL.Query()["target"]
+        base := filepath.Clean(r.Host) + "/"
+        templateData := urldata{"", ""}
         if !ok || len(target[0]) < 1 {
             log.Println("Url Param 'target' is missing")
-            return
+        } else {
+	    short := base + string(shortenURL(target[0]))
+            destination := target[0]
+	    templateData = urldata{destination, short}
         }
-        base := filepath.Clean(r.Host) + "/"
-        short := base + string(shortenURL(target[0]))
-        templateData := urldata{target[0], short}
 
-	// Return a 404 if the template doesn't exist
+        // Return a 404 if the template doesn't exist
 	info, err := os.Stat(fp)
 	if err != nil {
 		if os.IsNotExist(err) {
