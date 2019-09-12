@@ -1,31 +1,5 @@
+{{template "header"}}
 {{define "index"}}
-    <!doctype html>
-
-    <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>URL Shortener</title>
-        <meta name="description" content="URL Shortener written in Go">
-        <meta name="author" content="URL Shortener">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <link rel="stylesheet" href="/static/css/styles.css?v=1.0">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <script src="/static/js/scripts.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-        <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
-    </head>
-
-    <body class="site-background">
-    <main>
-        <div class="row">
-            <div class="">
-                <h2 class="center-align">
-                    <a href="/index.html">URL Shortener</a>
-                </h2>
-            </div>
-        </div>
-        <div class="row">
             <div class="col s2"></div>
             <div class="input-field col s7">
                 <i class="material-icons prefix">wb_cloudy</i>
@@ -65,32 +39,5 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col s3"></div>
-        </div>
-    </main>
-    <footer class="page-footer teal">
-        <div class="container ">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Footer Content</h5>
-                    <p class="grey-text text-lighten-4">You can use rows and columns here to organize your footer
-                        content.</p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">Links</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="#">Github</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
-            <div class="container">
-                © 2019 Copyright Text
-                <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
-            </div>
-        </div>
-    </footer>
-    </body>
-    </html>
 {{end}}
+{{template "footer"}}

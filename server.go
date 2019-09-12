@@ -50,6 +50,14 @@ func index(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
+        layout, err := template.ParseFiles("./templates/layout.html")
+	if err != nil {
+		// Log the detailed error)
+		log.Println(err.Error())
+		// Return a generic "Internal Server Error" message
+		http.Error(w, http.StatusText(500), 500)
+		return
+	}
 
 	tmpl, err := template.ParseFiles(lp, fp)
 	if err != nil {
@@ -59,11 +67,23 @@ func index(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, http.StatusText(500), 500)
 		return
 	}
+
+	if err := layout.ExecuteTemplate(w, "header", nil); err != nil {
+		log.Println(err.Error())
+		http.Error(w, http.StatusText(500), 500)
+        }
+
 	if err := tmpl.ExecuteTemplate(w, "index", templateData); err != nil {
 		log.Println(err.Error())
 		http.Error(w, http.StatusText(500), 500)
 	}
+
+        if err := layout.ExecuteTemplate(w, "footer", nil); err != nil {
+		log.Println(err.Error())
+		http.Error(w, http.StatusText(500), 500)
+        }
 }
+
 type urldata struct {
     Short string
     Target string
