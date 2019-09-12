@@ -1,43 +1,43 @@
 {{template "header"}}
 {{define "index"}}
-            <div class="col s2"></div>
-            <div class="input-field col s7">
-                <i class="material-icons prefix">wb_cloudy</i>
-                <input id="icon_prefix" type="text" class="validate">
-                <label id="text_label" for="icon_prefix">Target URL</label>
-            </div>
-            <div class="col s2">
-                <a onClick="shrink_button_click();" class="waves-effect waves-light btn"><i class="material-icons left">near_me</i>Shrink!</a>
-            </div>
-            <div class="col s2"></div>
-        </div>
-        <div id="loading-div" class="row hidden-div">
-            <div class="col s3"></div>
-            <div class="col s6 progress">
-                <div class="indeterminate"></div>
-            </div>
-            <div class="col s3"></div>
-        </div>
-        <div id="result-div" class="row hidden-div">
-            <div class="col s3"></div>
-            <div class="col s6">
-                <table>
-                    <thead>
-                    <tr>
-                        <th>Short URL</th>
-                        <th>Target URL</th>
-                        <th>Expiration date</th>
-                    </tr>
-                    </thead>
+<div class="col s2"></div>
+<div class="input-field col s7">
+    <i class="material-icons prefix">wb_cloudy</i>
+    <input id="icon_prefix" type="text" class="validate">
+    <label id="text_label" for="icon_prefix">Target URL</label>
+</div>
+<div class="col s2">
+    <a onClick="shrink_button_click();" class="waves-effect waves-light btn"><i class="material-icons left">near_me</i>Shrink!</a>
+</div>
+<div class="col s2"></div>
+</div>
+<div id="loading-div" class="row hidden-div">
+    <div class="col s3"></div>
+    <div class="col s6 progress">
+        <div class="indeterminate"></div>
+    </div>
+    <div class="col s3"></div>
+</div>
+<div id="result-div" class="row hidden-div">
+    <div class="col s3"></div>
+    <div class="col s6">
+        <table>
+            <thead>
+            <tr>
+                <th>Short URL</th>
+                <th>Target URL</th>
+                <th>Expiration date</th>
+            </tr>
+            </thead>
 
-                    <tbody>
-                    <tr>
-                        <td id="s-url">{{.Target}}</td>
-                        <td id="t-url">{{.Short}}</td>
-                        <td id="date-url">2020-09-03</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-{{end}}
-{{template "footer"}}
+            <tbody>
+            <tr>
+                <td id="s-url">{{.Target}}</td>
+                <td id="t-url">{{.Short}}</td>
+                <td id="date-url">2020-09-03</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    {{end}}
+    {{template "footer"}}

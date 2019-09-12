@@ -6,7 +6,7 @@ function shrink_button_click() {
     var current_url = document.getElementById('icon_prefix').value
     var parameter = window.location.href
     window.location = "/index.html?target=" + current_url;
-    
+
     //Hide loading bar
     div.style.display = 'none';
 
@@ -15,7 +15,7 @@ function shrink_button_click() {
     div.style.display = 'block';
 }
 
-window.onload = function() {
+window.onload = function () {
     var parameter = window.location.href
     if (parameter.includes("target")) {
         var url = new URL(parameter);
