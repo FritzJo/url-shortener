@@ -89,15 +89,10 @@ type urldata struct {
     Target string
 }
 
-func redirect(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("[info] redirect!")
-	vars := mux.Vars(r)
-	shortURL := vars["shortid"]
-	fmt.Println("[info] shortid: " + shortURL)
-	destinationURL := string(resolveShortURL(shortURL))
-	fmt.Println("[info] looked up destination!")
-	fmt.Println("[info] destination: " + destinationURL)
-	w.WriteHeader(http.StatusOK)
-	fmt.Fprintf(w, "Destination URL: %v\nShort URL: %v", destinationURL, shortURL)
+func redirect(w http.ResponseWriter, r *http.Request){
+    vars := mux.Vars(r)
+    shortURL := vars["shortid"]
+    destinationURL := string(resolveShortURL(shortURL))
+    fmt.Println("[info] destination: " + destinationURL)
+    http.Redirect(w, r, destinationURL, 301)
 }
-
