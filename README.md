@@ -17,7 +17,7 @@ git clone https://github.com/FritzJo/url-shortener.git
 # Run the server
 go run *.go
 ```
-Open http://localhost:8080 to use the application.
+Open http://localhost:8080/index.html to use the application.
 
 ## Roadmap
 * Actually shorten URLs... (I currently use MD5 hashes for shortening, which are longer in many cases)
