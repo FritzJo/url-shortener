@@ -18,7 +18,11 @@ func main() {
 	r.HandleFunc("/{shortid}", redirect)
 	//r.HandleFunc("/s/{targetURL}", createShortURL)
 	log.Println("Listening...")
-	http.ListenAndServe(":8080", r)
+	err := http.ListenAndServe(":8080", r)
+
+	if err != nil {
+		panic(err)
+	}
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
@@ -27,13 +31,13 @@ func index(w http.ResponseWriter, r *http.Request) {
 
 	target, ok := r.URL.Query()["target"]
 	base := filepath.Clean(r.Host) + "/"
-	templateData := urldata{"", ""}
+	templateData := urlData{"", ""}
 	if !ok || len(target[0]) < 1 {
 		log.Println("Url Param 'target' is missing")
 	} else {
 		short := base + string(shortenURL(target[0]))
 		destination := target[0]
-		templateData = urldata{destination, short}
+		templateData = urlData{destination, short}
 	}
 
 	// Return a 404 if the template doesn't exist
@@ -84,7 +88,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type urldata struct {
+type urlData struct {
 	Short  string
 	Target string
 }
