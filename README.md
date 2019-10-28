@@ -1,4 +1,6 @@
 # URL Shortener
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d5e298b1d6ce44b78e5829bbb67995c8)](https://www.codacy.com/manual/fritzjo-git/url-shortener?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=FritzJo/url-shortener&amp;utm_campaign=Badge_Grade)
+
 WIP Repository
 
 ## Description
