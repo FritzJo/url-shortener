@@ -24,7 +24,6 @@ Open http://localhost:8080/index.html to use the application.
 ## Roadmap
 * Actually shorten URLs... (I currently use MD5 hashes for shortening, which are longer in many cases)
 * Add more server options (custom port, ...) 
-* Docker support
 * Add more options for shortening
   * one-time-links
   * expiration date 
