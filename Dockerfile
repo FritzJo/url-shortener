@@ -1,7 +1,7 @@
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
 # Start from the latest golang base image
-FROM golang
+FROM golang:1.13.4-stretch
 
 # Install requirements
 RUN go get github.com/gorilla/mux
