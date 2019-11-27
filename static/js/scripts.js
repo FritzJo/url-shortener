@@ -3,7 +3,7 @@ function shrink_button_click() {
     var div = document.getElementById("loading-div");
     div.style.display = "block";
 
-    var current_url = document.getElementById("icon_prefix").value
+    var current_url = document.getElementById("icon_prefix").value;
     var parameter = window.location.href;
     window.location = "/index.html?target=" + current_url;
 
@@ -22,7 +22,7 @@ window.onload = function () {
         //document.addEventListener('turbolinks:load', () => {
         //    M.updateTextFields();
         //});
-        document.getElementById("text_label").classList.add('active');
+        document.getElementById("text_label").classList.add("active");
         document.getElementById("icon_prefix").value = url.searchParams.get("target");
         div = document.getElementById("result-div");
         div.style.display = "block";
