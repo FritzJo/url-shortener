@@ -45,7 +45,7 @@ func resolveShortURL(shortURL string) (val string) {
 		val = string(b.Get([]byte(shortURL)))
 		return nil
 	})
-	
+
 	if err != nil {
 		log.Fatal(err)
 	}
