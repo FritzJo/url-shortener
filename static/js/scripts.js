@@ -1,11 +1,11 @@
-function shrink_button_click() {
+function shrinkButtonClick() {
     //Show loading bar
     var div = document.getElementById("loading-div");
     div.style.display = "block";
 
-    var current_url = document.getElementById("icon_prefix").value;
+    var currentUrl = document.getElementById("icon_prefix").value;
     var parameter = window.location.href;
-    window.location = "/index.html?target=" + current_url;
+    window.location = "/index.html?target=" + currentUrl;
 
     //Hide loading bar
     div.style.display = "none";
@@ -18,10 +18,10 @@ function shrink_button_click() {
 window.onload = function () {
     var parameter = window.location.href;
     if (parameter.includes("target")) {
-        var url = new URL(parameter);
+        const url = new URL(parameter);
+        const resultDiv = document.getElementById("result-div");
         document.getElementById("text_label").classList.add("active");
         document.getElementById("icon_prefix").value = url.searchParams.get("target");
-        div = document.getElementById("result-div");
-        div.style.display = "block";
+        resultDiv.style.display = "block";
     }
 };
