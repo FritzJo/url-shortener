@@ -3,25 +3,32 @@ function shrinkButtonClick() {
     var div = document.getElementById("loading-div");
     div.style.display = "block";
 
-    var currentUrl = document.getElementById("icon_prefix").value;
-    var parameter = window.location.href;
-    window.location = "/index.html?target=" + currentUrl;
+    const resultDiv = document.getElementById("result-div");
+    document.getElementById("text_label").classList.add("active");
+    resultDiv.style.display = "block";
+    var currentHostname = window.location.hostname
 
-    //Hide loading bar
-    div.style.display = "none";
+    var apiurl = "http://" + currentHostname + ":8080/api/v1/short";
+    // Get target url
+    var params = document.getElementById("icon_prefix").value;
+    var xhr = new XMLHttpRequest();
 
-    //Show results
-    div = document.getElementById("result-div");
-    div.style.display = "block";
+    xhr.onreadystatechange = function () {
+        if (this.readyState != 4) return;
+        if (this.status == 200) {
+            var data = this.responseText;
+            var json = JSON.parse(data);
+            document.getElementById("s-url").innerHTML = json.target;
+            document.getElementById("t-url").innerHTML = json.source;
+
+            //Hide loading bar
+            div.style.display = "none";
+            //Show results
+            div = document.getElementById("result-div");
+            div.style.display = "block";
+        }
+
+    };
+    xhr.open("POST", apiurl, true);
+    xhr.send(params);
 }
-
-window.onload = function () {
-    var parameter = window.location.href;
-    if (parameter.includes("target")) {
-        const url = new URL(parameter);
-        const resultDiv = document.getElementById("result-div");
-        document.getElementById("text_label").classList.add("active");
-        document.getElementById("icon_prefix").value = url.searchParams.get("target");
-        resultDiv.style.display = "block";
-    }
-};

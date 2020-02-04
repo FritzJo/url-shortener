@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/gorilla/mux"
 	"html/template"
 	"log"
 	"net/http"
 	"os"
 	"path/filepath"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -16,6 +17,7 @@ func main() {
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 	r.HandleFunc("/index.html", index)
 	r.HandleFunc("/{shortid}", redirect)
+	r.HandleFunc("/api/v1/short", shorten)
 	//r.HandleFunc("/s/{targetURL}", createShortURL)
 	log.Println("Listening...")
 	err := http.ListenAndServe(":8080", r)
@@ -29,16 +31,7 @@ func index(w http.ResponseWriter, r *http.Request) {
 	lp := filepath.Join("templates", "index.html")
 	fp := filepath.Join("templates", filepath.Clean(r.URL.Path))
 
-	target, ok := r.URL.Query()["target"]
-	base := filepath.Clean(r.Host) + "/"
 	templateData := urlData{"", ""}
-	if !ok || len(target[0]) < 1 {
-		log.Println("Url Param 'target' is missing")
-	} else {
-		short := base + string(shortenURL(target[0]))
-		destination := target[0]
-		templateData = urlData{destination, short}
-	}
 
 	// Return a 404 if the template doesn't exist
 	info, err := os.Stat(fp)
