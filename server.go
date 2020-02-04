@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -14,12 +13,12 @@ import (
 func main() {
 	initDatabase()
 	r := mux.NewRouter()
-	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
-	r.HandleFunc("/index.html", index)
 	r.HandleFunc("/{shortid}", redirect)
-	r.HandleFunc("/api/v1/short", shorten)
-	//r.HandleFunc("/s/{targetURL}", createShortURL)
-	log.Println("Listening...")
+	r.HandleFunc("/", index)
+	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
+	r.HandleFunc("/api/v1/short", shorten).Methods("POST")
+
+	log.Println("[INFO] Listening...")
 	err := http.ListenAndServe(":8080", r)
 
 	if err != nil {
@@ -29,7 +28,7 @@ func main() {
 
 func index(w http.ResponseWriter, r *http.Request) {
 	lp := filepath.Join("templates", "index.html")
-	fp := filepath.Join("templates", filepath.Clean(r.URL.Path))
+	fp := filepath.Join("templates", "layout.html")
 
 	templateData := urlData{"", ""}
 
@@ -90,6 +89,5 @@ func redirect(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	shortURL := vars["shortid"]
 	destinationURL := string(resolveShortURL(shortURL))
-	fmt.Println("[info] destination: " + destinationURL)
 	http.Redirect(w, r, destinationURL, 301)
 }
