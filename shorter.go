@@ -2,23 +2,25 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"path/filepath"
 )
 
-type ShortUrl struct {
+type shortURL struct {
 	Source string `json:"source"`
 	Target string `json:"target"`
 }
 
 func shorten(w http.ResponseWriter, r *http.Request) {
 	target, _ := ioutil.ReadAll(r.Body)
+	targetUrl := string(target)
 	base := filepath.Clean(r.Host) + "/"
-	short := base + string(shortenURL(string(target)))
-	fmt.Println("t: " + string(target))
-	fmt.Println("s: " + short)
-	responsedata := ShortUrl{string(target), short}
+
+	shortUrl := GetMD5Hash(targetUrl)
+	storeURL(shortUrl, targetUrl)
+
+	short := base + string(shortUrl)
+	responsedata := shortURL{string(target), short}
 	json.NewEncoder(w).Encode(responsedata)
 }
