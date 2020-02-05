@@ -1,8 +1,7 @@
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
 # Start from the latest golang base image
-FROM golang:alpine AS builder
-RUN apk update && apk add --no-cache git
+FROM golang:latest 
 
 # Set the Current Working Directory inside the container
 WORKDIR $GOPATH/src/url-shortener
@@ -15,12 +14,7 @@ RUN go get github.com/boltdb/bolt
 COPY . .
 
 # Build the Go app
-RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o /go/bin/main
-
-FROM scratch
-
-# Add binary
-COPY --from=builder /go/bin/main /go/bin/main
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o urlserver . 
 
 # Command to run the executable
-ENTRYPOINT ["/go/bin/main"]
+ENTRYPOINT ["./urlserver"]
