@@ -8,23 +8,23 @@ import (
 	"path/filepath"
 )
 
-type shortURL struct {
+type urlData struct {
 	Source string `json:"source"`
 	Target string `json:"target"`
 }
 
 func shorten(w http.ResponseWriter, r *http.Request) {
 	target, _ := ioutil.ReadAll(r.Body)
-	targetUrl := string(target)
+	targetURL := string(target)
 	base := filepath.Clean(r.Host) + "/"
-	if targetUrl == "" {
+	if targetURL == "" {
 		log.Println("[INFO] Empty target data!")
 		return
 	}
-	shortUrl := GetMD5Hash(targetUrl)
-	storeURL(targetUrl, shortUrl)
+	shortURL := GetMD5Hash(targetURL)
+	storeURL(targetURL, shortURL)
 
-	short := base + string(shortUrl)
-	responsedata := shortURL{string(target), short}
+	short := base + string(shortURL)
+	responsedata := urlData{string(target), short}
 	json.NewEncoder(w).Encode(responsedata)
 }

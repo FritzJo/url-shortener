@@ -55,8 +55,8 @@ func resolveShortURL(shortURL string) (val string) {
 	return val
 }
 
-func storeURL(targetUrl string, shortUrl string) {
-	log.Println("[INFO] Writing to bucket: " + targetUrl)
+func storeURL(targetURL string, shortURL string) {
+	log.Println("[INFO] Writing to bucket: " + targetURL)
 	db, err := bolt.Open("urls.db", 0600, &bolt.Options{Timeout: 1 * time.Second})
 	defer db.Close()
 
@@ -66,7 +66,7 @@ func storeURL(targetUrl string, shortUrl string) {
 
 	err = db.Update(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("urls"))
-		err := b.Put([]byte(shortUrl), []byte(targetUrl))
+		err := b.Put([]byte(shortURL), []byte(targetURL))
 		return err
 	})
 

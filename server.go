@@ -80,11 +80,6 @@ func index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-type urlData struct {
-	Short  string
-	Target string
-}
-
 func redirect(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	shortURL := vars["shortid"]
