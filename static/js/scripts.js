@@ -6,7 +6,7 @@ function shrinkButtonClick() {
     const resultDiv = document.getElementById("result-div");
     document.getElementById("text_label").classList.add("active");
     resultDiv.style.display = "block";
-    var currentHostname = window.location.hostname
+    var currentHostname = window.location.hostname;
 
     var apiurl = "http://" + currentHostname + ":8080/api/v1/short";
     // Get target url
@@ -14,8 +14,10 @@ function shrinkButtonClick() {
     var xhr = new XMLHttpRequest();
 
     xhr.onreadystatechange = function () {
-        if (this.readyState != 4) return;
-        if (this.status == 200) {
+        if (this.readyState !== 4) {
+            return;
+        }
+        if (this.status === 200) {
             var data = this.responseText;
             var json = JSON.parse(data);
             document.getElementById("s-url").innerHTML = json.target;
