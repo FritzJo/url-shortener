@@ -1,0 +1,3 @@
+# ignore .git and database files
+.git
+urls.db
