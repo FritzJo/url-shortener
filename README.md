@@ -42,3 +42,4 @@ Open http://localhost:8080/ to use the application.
   * custom short urls
 * Improve performance
 * Improve code quality
+* Use go mod files
