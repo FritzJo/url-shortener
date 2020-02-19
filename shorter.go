@@ -2,10 +2,12 @@ package main
 
 import (
 	"encoding/json"
+	"hash/adler32"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"path/filepath"
+	"strconv"
 )
 
 type urlData struct {
@@ -21,10 +23,15 @@ func shorten(w http.ResponseWriter, r *http.Request) {
 		log.Println("[INFO] Empty target data!")
 		return
 	}
-	shortURL := GetMD5Hash(targetURL)
+	shortURL := shortFunction(target)
 	storeURL(targetURL, shortURL)
 
 	short := base + string(shortURL)
 	responsedata := urlData{string(target), short}
 	json.NewEncoder(w).Encode(responsedata)
+}
+
+func shortFunction(url []byte) string {
+	adler32Int := adler32.Checksum(url)
+	return strconv.FormatUint(uint64(adler32Int), 16)
 }
