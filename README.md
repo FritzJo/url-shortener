@@ -34,7 +34,6 @@ docker run -p 8080:8080 urlshortener
 Open http://localhost:8080/ to use the application.
 
 ## Roadmap
-* Actually shorten URLs... (I currently use MD5 hashes for shortening, which are longer in many cases)
 * Add more server options (custom port, ...) 
 * Add more options for shortening
   * one-time-links
