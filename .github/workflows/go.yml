@@ -1,7 +1,27 @@
-name: Go
+name: url-shortner-build
 on: [push]
 jobs:
+  test:
+    name: Test
+    runs-on: [ubuntu-latest]
+    steps:
+      - name: Set up Go 1.13
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.13
+        id: go    
+      
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v2
 
+      - name: Get dependencies
+        run: |
+          go mod download
+          go mod verify
+
+      - name: Test
+        run: go test        
+            
   build:
     name: Build
     runs-on: ubuntu-latest
