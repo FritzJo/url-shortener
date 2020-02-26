@@ -1,7 +1,7 @@
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
 # Start from the latest golang base image
-FROM golang:1.13.7
+FROM golang:1.14.0-buster
 
 # Set the Current Working Directory inside the container
 WORKDIR $GOPATH/src/url-shortener
