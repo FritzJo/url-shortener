@@ -29,48 +29,38 @@ func initDatabase() {
 
 }
 
-func resolveShortURL(shortURL string) (val string) {
-	log.Println("[INFO] Reading from bucket: " + shortURL)
+func accessBucket(val1 string, val2 string, mode string) string {
 	db, err := bolt.Open("urls.db", 0600, &bolt.Options{Timeout: 1 * time.Second})
-	//fmt.Println("[info] Opened db")
 	defer db.Close()
-
 	if err != nil {
 		log.Fatal(err)
 	}
-
+	result := ""
 	//fmt.Println("[info] reading bucket...")
 	err = db.View(func(tx *bolt.Tx) error {
 		b := tx.Bucket([]byte("urls"))
-		//fmt.Println("[info] bucket info: " + string(b.Stats().Depth) + "!")
-		val = string(b.Get([]byte(shortURL)))
+		if mode == "put" {
+			log.Println("[INFO] Writing to bucket: " + val2)
+			err := b.Put([]byte(val1), []byte(val2))
+
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else if mode == "get" {
+			log.Println("[INFO] Reading from bucket: " + val1)
+			val := string(b.Get([]byte(val1)))
+			result = val
+		}
 		return nil
 	})
+	return result
 
-	if err != nil {
-		log.Fatal(err)
-	}
+}
 
-	//fmt.Println("[info] target URL: " + val)
-	return val
+func resolveShortURL(shortURL string) (val string) {
+	return accessBucket(shortURL, "", "get")
 }
 
 func storeURL(targetURL string, shortURL string) {
-	log.Println("[INFO] Writing to bucket: " + targetURL)
-	db, err := bolt.Open("urls.db", 0600, &bolt.Options{Timeout: 1 * time.Second})
-	defer db.Close()
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	err = db.Update(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte("urls"))
-		err := b.Put([]byte(shortURL), []byte(targetURL))
-		return err
-	})
-
-	if err != nil {
-		log.Fatal(err)
-	}
+	accessBucket(targetURL, shortURL, "put")
 }
