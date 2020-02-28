@@ -36,25 +36,22 @@ func accessBucket(val1 string, val2 string, mode string) string {
 		log.Fatal(err)
 	}
 	result := ""
-	//fmt.Println("[info] reading bucket...")
-	err = db.View(func(tx *bolt.Tx) error {
-		b := tx.Bucket([]byte("urls"))
-		if mode == "put" {
-			log.Println("[INFO] Writing to bucket: " + val2)
+	if mode == "put" {
+		log.Println("[INFO] Writing to bucket: " + val2)
+		err = db.Update(func(tx *bolt.Tx) error {
+			b := tx.Bucket([]byte("urls"))
 			err := b.Put([]byte(val1), []byte(val2))
-
-			if err != nil {
-				log.Fatal(err)
-			}
-		} else if mode == "get" {
-			log.Println("[INFO] Reading from bucket: " + val1)
-			val := string(b.Get([]byte(val1)))
-			result = val
-		}
-		return nil
-	})
+			return err
+		})
+	} else if mode == "get" {
+		log.Println("[INFO] Reading from bucket: " + val1)
+		err = db.View(func(tx *bolt.Tx) error {
+			b := tx.Bucket([]byte("urls"))
+			result = string(b.Get([]byte(val1)))
+			return nil
+		})
+	}
 	return result
-
 }
 
 func resolveShortURL(shortURL string) (val string) {
@@ -62,5 +59,5 @@ func resolveShortURL(shortURL string) (val string) {
 }
 
 func storeURL(targetURL string, shortURL string) {
-	accessBucket(targetURL, shortURL, "put")
+	accessBucket(shortURL, targetURL, "put")
 }
