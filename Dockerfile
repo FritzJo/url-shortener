@@ -6,12 +6,11 @@ FROM golang:1.14.0-buster
 # Set the Current Working Directory inside the container
 WORKDIR $GOPATH/src/url-shortener
 
-# Install requirements
-RUN go get github.com/gorilla/mux
-RUN go get github.com/boltdb/bolt
-
 # Copy the source from the current directory to the Working Directory inside the container
 COPY . .
+
+# Install requirements
+RUN go mod download
 
 # Build the Go app
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o urlserver . 
