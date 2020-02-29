@@ -10,8 +10,8 @@ My goal is to learn more about building websites with MaterializeCSS and backend
 ### Manual deployment
 ``` bash
 # Install requirements
-go get github.com/gorilla/mux
-go get github.com/boltdb/bolt
+go mod download
+go mod verify
 
 # Clone the repository 
 git clone https://github.com/FritzJo/url-shortener.git
