@@ -13,7 +13,7 @@ COPY . .
 RUN go mod download
 
 # Build the Go app
-RUN go build -tags netgo -a -o urlserver
+RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -tags netgo -a -o urlserver
 
 # Create final image
 FROM scratch
