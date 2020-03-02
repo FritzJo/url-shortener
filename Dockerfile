@@ -1,7 +1,7 @@
 # Dockerfile References: https://docs.docker.com/engine/reference/builder/
 
 # Start from the latest golang base image
-FROM golang:1.14.0-buster
+FROM golang:1.14.0-buster as builder
 
 # Set the Current Working Directory inside the container
 WORKDIR $GOPATH/src/url-shortener
@@ -13,7 +13,14 @@ COPY . .
 RUN go mod download
 
 # Build the Go app
-RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -o urlserver . 
+RUN go build -tags netgo -a -o urlserver
+
+# Create final image
+FROM scratch
+
+# Copy binary and static files
+WORKDIR /app
+COPY --from=builder /go/src/url-shortener /app
 
 # Command to run the executable
 ENTRYPOINT ["./urlserver"]
