@@ -2,4 +2,7 @@
 .project
 .settings/
 *.db
-
+react_src/build/
+react_src/node_modules/
+url-shortener
+static/
