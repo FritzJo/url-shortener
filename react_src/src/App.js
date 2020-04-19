@@ -9,7 +9,7 @@ function App() {
         <body className="site-background">
         <main>
             <Header/>
-            <Info date="test"/>
+            <Info date="Rebuild"/>
         </main>
         <Footer/>
         </body>

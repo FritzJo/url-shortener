@@ -8,7 +8,7 @@ FROM golang:1.14.0-buster as builder
 WORKDIR $GOPATH/src/url-shortener
 
 # Copy the source from the current directory to the Working Directory inside the container
-COPY . .
+COPY  ["*.go", "go.sum", "go.mod", "./"]
 
 # Install requirements
 RUN go mod download
@@ -22,8 +22,9 @@ FROM node:stretch-slim as web-builder
 WORKDIR /app
 
 # install app dependencies
-COPY react_src/ ./
+COPY react_src/package.json ./
 RUN yarn
+COPY react_src/ ./
 RUN yarn build
 
 # Create final image
