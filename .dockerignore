@@ -2,3 +2,6 @@
 .git
 urls.db
 Dockerfile
+react_src/node_modules
+react_src/build
+.dockerignore
