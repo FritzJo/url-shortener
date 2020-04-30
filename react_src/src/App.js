@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import Footer from './components/Footer.js';
+import Footer from "./components/Footer.js";
 import Header from "./components/Header";
 import Info from "./components/Info";
 
@@ -9,7 +9,7 @@ function App() {
         <body className="site-background">
         <main>
             <Header/>
-            <Info date="Rebuild"/>
+            <Info date="Hello World"/>
         </main>
         <Footer/>
         </body>
