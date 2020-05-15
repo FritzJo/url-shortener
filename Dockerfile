@@ -16,23 +16,13 @@ RUN go mod download
 # Build the Go app
 RUN GOOS=linux GOARCH=amd64 go build -ldflags="-w -s" -tags netgo -a -o urlserver
 
-## Build website
-FROM node:stretch-slim as web-builder
-
-WORKDIR /app
-
-# install app dependencies
-COPY react_src/package.json ./
-RUN yarn
-COPY react_src/ ./
-RUN yarn build
-
 # Create final image
 FROM scratch
 
 # Copy binary and static files
 WORKDIR /app
 COPY --from=builder /go/src/url-shortener /app
-COPY --from=web-builder /app/build /app
+COPY ./static /app/static
+
 # Command to run the executable
 ENTRYPOINT ["./urlserver"]
