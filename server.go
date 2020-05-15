@@ -23,7 +23,7 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	http.ServeFile(w, r, "./index.html")
+	http.ServeFile(w, r, "./static/index.html")
 }
 
 func redirect(w http.ResponseWriter, r *http.Request) {
