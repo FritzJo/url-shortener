@@ -4,7 +4,7 @@
 [![Build Status](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Factions-badge.atrox.dev%2FFritzJo%2Furl-shortener%2Fbadge%3Fref%3Dmaster&style=flat)](https://actions-badge.atrox.dev/FritzJo/url-shortener/goto?ref=master)
 ## Description
 This repository contains the code for my personal URL shortening service (like [bit.ly](https://bitly.com/), or [goo.gl](https://goo.gl/)).
-My goal is to learn more about building websites with ReactJS and backends with Go, as well as key-value stores.
+My goal is to learn more about building websites ~~with ReactJS~~ and backends with Go, as well as key-value stores.
 
 ## How to
 ### Docker
