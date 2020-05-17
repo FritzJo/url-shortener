@@ -4,6 +4,7 @@ import (
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -14,9 +15,13 @@ func main() {
 	r.PathPrefix("/static/").Handler(http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 	r.HandleFunc("/api/v1/short", shorten).Methods("POST")
 
-	log.Println("[INFO] Listening...")
-	err := http.ListenAndServe(":8080", r)
+	port := os.Getenv("URL_PORT")
 
+	if port == "" {
+		port = "8080"
+	}
+	log.Println("[INFO] Listening on port " + port + "...")
+	err := http.ListenAndServe(":"+port, r)
 	if err != nil {
 		panic(err)
 	}
