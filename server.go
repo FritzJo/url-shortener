@@ -34,6 +34,11 @@ func index(w http.ResponseWriter, r *http.Request) {
 func redirect(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	shortURL := vars["shortid"]
-	destinationURL := string(resolveShortURL(shortURL))
+	destinationURL, err := resolveShortURL(shortURL)
+	destinationURL = string(destinationURL)
+	if err != nil {
+		panic(err)
+	}
+	
 	http.Redirect(w, r, destinationURL, 301)
 }
