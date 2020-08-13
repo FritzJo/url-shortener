@@ -24,6 +24,18 @@ func shorten(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	shortURL := shortFunction(target)
+	url, err := resolveShortURL(shortURL)
+	if err != nil {
+		panic(err)
+	}
+	for url != "" && url != targetURL {
+		shortURL = shortURL + "a"
+		url, err = resolveShortURL(shortURL)
+		if err != nil {
+			panic(err)
+		}
+
+	}
 	storeURL(targetURL, shortURL)
 
 	short := base + string(shortURL)
